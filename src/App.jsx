@@ -1,10 +1,11 @@
 import Navbar from "@/components/Navbar"
+import Products from "@/pages/Products"
 
 function App() {
   return (
     <>
       <Navbar />
-      <h1 className="text-3xl font-bold texte-slate-900 tracking-tight">Hello World!</h1>
+      <Products />
     </>
   )
 }
