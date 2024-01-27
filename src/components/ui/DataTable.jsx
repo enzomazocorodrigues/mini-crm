@@ -27,6 +27,16 @@ import {
   PaginationItem
 } from "./Pagination"
 
+function paginationInfo(table) {
+  const rowsPerPage = table.getState().pagination.pageSize
+  const numberOfPages = table.getPageCount()
+  const pageIndex = table.getState().pagination.pageIndex
+  const startRow = (pageIndex * rowsPerPage) + 1
+  const endRow = (pageIndex + 1) * rowsPerPage
+  const totalRows = rowsPerPage * numberOfPages
+
+  return { startRow, endRow, totalRows }
+}
 
 export function DataTable({
   columns,
@@ -44,6 +54,8 @@ export function DataTable({
       sorting,
     },
   })
+
+  const { startRow, endRow, totalRows } = paginationInfo(table)
 
   return (
     <div className="flex flex-col gap-4">
@@ -99,9 +111,7 @@ export function DataTable({
             />
           </PaginationItem>
           <span className="text-slate-500">
-            {table.getState().pagination.pageIndex + 1}
-            {" "}of{" "}
-            {table.getPageCount()}
+            {startRow} to {endRow} of {totalRows}
           </span>
           <PaginationItem>
             <PaginationNext
