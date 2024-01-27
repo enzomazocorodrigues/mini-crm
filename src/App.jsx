@@ -1,5 +1,12 @@
+import Navbar from "@/components/Navbar"
+
 function App() {
-  return <h1 className="text-3xl font-bold texte-slate-900 tracking-tight">Hello World!</h1>
+  return (
+    <>
+      <Navbar />
+      <h1 className="text-3xl font-bold texte-slate-900 tracking-tight">Hello World!</h1>
+    </>
+  )
 }
 
 export default App
