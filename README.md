@@ -25,7 +25,7 @@ This is a lightweight Customer Relationship Management (CRM) system designed for
 
 - Developed using React + Vite.
 - Some main libs are React Router and React Query
-- UI based on shadcn/ui
+- UI based on TailwindCSS and shadcn/ui
 - All data is stored in IndexedDB.
 - Responsive, user-friendly and accessible interface for seamless navigation.
 
