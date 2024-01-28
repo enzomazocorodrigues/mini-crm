@@ -26,12 +26,10 @@ const columns = [
 
 function Products() {
   const [products, setProducts] = useState([])
+
   useEffect(() => {
     getProducts().then(setProducts)
   }, [])
-
-
-
 
   return (
     <main className="p-10 flex flex-col gap-10">
