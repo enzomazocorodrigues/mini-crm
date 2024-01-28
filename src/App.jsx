@@ -1,5 +1,5 @@
-import Navbar from "@/components/Navbar"
-import Products from "@/pages/Products"
+import Navbar from "@/components/Navbar";
+import Products from "@/pages/Products";
 
 function App() {
   return (
@@ -7,7 +7,7 @@ function App() {
       <Navbar />
       <Products />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
