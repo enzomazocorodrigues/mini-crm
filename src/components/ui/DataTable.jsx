@@ -2,6 +2,7 @@ import { useState } from "react"
 import {
   flexRender,
   getCoreRowModel,
+  getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
@@ -26,23 +27,27 @@ import {
   PaginationPrevious,
   PaginationItem
 } from "./Pagination"
+import { Input } from "./Input"
 
 function paginationInfo(table) {
+  const rows = table.getPaginationRowModel().rows.length
+  const totalRows = table.getFilteredRowModel().rows.length
   const rowsPerPage = table.getState().pagination.pageSize
-  const numberOfPages = table.getPageCount()
   const pageIndex = table.getState().pagination.pageIndex
-  const startRow = (pageIndex * rowsPerPage) + 1
-  const endRow = (pageIndex + 1) * rowsPerPage
-  const totalRows = rowsPerPage * numberOfPages
+
+  const startRow = (rowsPerPage * pageIndex) + Number(!!rows)
+  const endRow = (rowsPerPage * pageIndex) + rows
 
   return { startRow, endRow, totalRows }
 }
+
 
 export function DataTable({
   columns,
   data,
 }) {
   const [sorting, setSorting] = useState([])
+  const [columnFilters, setColumnFilters] = useState([])
   const table = useReactTable({
     data,
     columns,
@@ -50,8 +55,11 @@ export function DataTable({
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
     state: {
       sorting,
+      columnFilters
     },
   })
 
@@ -59,6 +67,14 @@ export function DataTable({
 
   return (
     <div className="flex flex-col gap-4">
+      <Input
+        placeholder="Filter products..."
+        value={(table.getColumn("description")?.getFilterValue()) ?? ""}
+        onChange={(event) =>
+          table.getColumn("description")?.setFilterValue(event.target.value)
+        }
+        className="w-full sm:max-w-sm"
+      />
       <div className="rounded-md border">
         <Table>
           <TableHeader>
