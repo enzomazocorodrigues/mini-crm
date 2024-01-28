@@ -8,7 +8,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
-import { ArrowUpDown } from "lucide-react";
+import { ArrowUpDown, PlusCircle } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 
 import {
@@ -28,18 +28,7 @@ import {
   PaginationItem,
 } from "./Pagination";
 import { Input } from "./Input";
-
-function paginationInfo(table) {
-  const rows = table.getPaginationRowModel().rows.length;
-  const totalRows = table.getFilteredRowModel().rows.length;
-  const rowsPerPage = table.getState().pagination.pageSize;
-  const pageIndex = table.getState().pagination.pageIndex;
-
-  const startRow = rowsPerPage * pageIndex + Number(!!rows);
-  const endRow = rowsPerPage * pageIndex + rows;
-
-  return { startRow, endRow, totalRows };
-}
+import paginationInfo from "@/utils/pagination-info";
 
 export function DataTable({ columns, data }) {
   const [sorting, setSorting] = useState([]);
@@ -63,14 +52,20 @@ export function DataTable({ columns, data }) {
 
   return (
     <div className="flex flex-col gap-4">
-      <Input
-        placeholder="Filter products..."
-        value={table.getColumn("description")?.getFilterValue() ?? ""}
-        onChange={(event) =>
-          table.getColumn("description")?.setFilterValue(event.target.value)
-        }
-        className="w-full sm:max-w-sm"
-      />
+      <div className="flex gap-2 sm:justify-between">
+        <Input
+          placeholder="Filter products..."
+          value={table.getColumn("description")?.getFilterValue() ?? ""}
+          onChange={(event) =>
+            table.getColumn("description")?.setFilterValue(event.target.value)
+          }
+          className="w-full sm:max-w-sm"
+        />
+        <Button className="gap-2">
+          <PlusCircle size={20} />
+          Novo produto
+        </Button>
+      </div>
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -129,7 +124,7 @@ export function DataTable({ columns, data }) {
             />
           </PaginationItem>
           <span className="text-slate-500">
-            {startRow} to {endRow} of {totalRows}
+            {startRow} to {endRow} of {totalRows} rows
           </span>
           <PaginationItem>
             <PaginationNext
